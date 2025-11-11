@@ -19,14 +19,21 @@ func main() {
 	cmd := exec.Command("cmd", "/c", "mode", "con", console_cols, console_lines)
 	cmd.Run()
 	gamemap := make([]string, 0, Cols*(Lines - 2))
-	for x := Cols*(Lines - 2); x > 0; x--{
-		switch x % 2{
-			case 0:
-				gamemap = append(gamemap, "@") //перенос поля в слайс для более удобного взаимодействия с ним
-			default:
-				gamemap = append(gamemap, " ")
+	for x := 0; x < Cols*(Lines-2); x++{
+		switch {
+		case x < Cols:
+			gamemap = append(gamemap, "1")
+		case x >= Cols*(Lines-3):
+			gamemap = append(gamemap, "2")
+		case x%Cols == 0:
+			gamemap = append(gamemap, "3")
+		case x%Cols == 99:
+			gamemap = append(gamemap, "4")
+		default:
+			gamemap = append(gamemap, " ")
 		}
 	}
+		
 
 	for _, x := range gamemap{
 		fmt.Printf(x)
