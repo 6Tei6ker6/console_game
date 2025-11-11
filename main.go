@@ -7,8 +7,8 @@ import (
 )
 
 const (
-	Cols = 100
-	Lines = 42 // исправить на 40 и поправить в коде, костыль в 42 сделан для непостоянной генерации
+	Cols = 200
+	Lines = 62 // исправить на ровное число
 )
 
 var console_lines string = "lines=" + strconv.Itoa(Lines)
@@ -19,16 +19,12 @@ func main() {
 	cmd := exec.Command("cmd", "/c", "mode", "con", console_cols, console_lines)
 	cmd.Run()
 	gamemap := make([]string, 0, Cols*(Lines - 2))
-	for x := 0; x < Cols*(Lines-2); x++{
+	for x := 0; x < Cols*(Lines-2); x++{ // исправить на Lines - 1
 		switch {
-		case x < Cols:
+		case x < Cols || x%Cols == (Cols-1) || x%Cols == 0 || x >= Cols*(Lines-3): // исправить на Lines - 1
+			gamemap = append(gamemap, "@")
+		case x == (Lines*Cols/2) + (Cols/2):
 			gamemap = append(gamemap, "1")
-		case x >= Cols*(Lines-3):
-			gamemap = append(gamemap, "2")
-		case x%Cols == 0:
-			gamemap = append(gamemap, "3")
-		case x%Cols == 99:
-			gamemap = append(gamemap, "4")
 		default:
 			gamemap = append(gamemap, " ")
 		}
